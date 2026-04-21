@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Watermark automatique sur images</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1>Ajout automatique de filigrane</h1>
+      <p>
+        Importez vos images, ajustez les paramètres du watermark, visualisez le rendu
+        en temps réel et téléchargez vos fichiers.
+      </p>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <section class="panel">
+          <h2>Import d’images</h2>
+
+          <div id="dropZone" class="drop-zone" tabindex="0" aria-label="Zone de dépôt d'images">
+            <p><strong>Glissez-déposez</strong> vos images ici</p>
+            <p>ou</p>
+            <button id="selectFilesBtn" type="button" class="btn primary">Choisir des fichiers</button>
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              hidden
+            />
+            <small>Formats acceptés : JPG, PNG, WebP</small>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title-row">
+            <h2>Images importées</h2>
+            <span id="imageCount" class="badge">0</span>
+          </div>
+
+          <div id="thumbnailList" class="thumbnail-list" aria-live="polite"></div>
+        </section>
+      </aside>
+
+      <section class="content">
+        <section class="panel controls-panel">
+          <h2>Paramètres du filigrane</h2>
+
+          <div class="control-grid">
+            <div class="control-group">
+              <label for="logoSizeRange">Taille du logo (%)</label>
+              <div class="control-inline">
+                <input id="logoSizeRange" type="range" min="5" max="80" step="1" value="20" />
+                <span id="logoSizeValue">20%</span>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="opacityRange">Opacité</label>
+              <div class="control-inline">
+                <input id="opacityRange" type="range" min="0.05" max="1" step="0.05" value="0.7" />
+                <span id="opacityValue">0.70</span>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="bottomMarginRange">Marge depuis le bas (px)</label>
+              <div class="control-inline">
+                <input id="bottomMarginRange" type="range" min="0" max="200" step="1" value="20" />
+                <span id="bottomMarginValue">20 px</span>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="exportFormat">Format d’export</label>
+              <select id="exportFormat">
+                <option value="image/png">PNG</option>
+                <option value="image/jpeg">JPEG</option>
+                <option value="image/webp">WebP</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="qualityRange">Qualité export</label>
+              <div class="control-inline">
+                <input id="qualityRange" type="range" min="0.1" max="1" step="0.05" value="0.92" />
+                <span id="qualityValue">0.92</span>
+              </div>
+              <small>Utilisé pour JPEG / WebP</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel preview-panel">
+          <div class="section-title-row">
+            <h2>Aperçu</h2>
+            <div class="preview-actions">
+              <button id="downloadCurrentBtn" class="btn success" type="button" disabled>
+                Télécharger l’image
+              </button>
+              <button id="downloadAllBtn" class="btn primary" type="button" disabled>
+                Télécharger toutes les images
+              </button>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="previewCanvas"></canvas>
+            <div id="emptyState" class="empty-state">
+              <p>Aucune image sélectionnée</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Traitement</h2>
+          <div class="progress-container">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <p id="progressText" class="progress-text">En attente…</p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
